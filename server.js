@@ -1,9 +1,17 @@
-/* global process */
+/* global process, __dirname */
 'use strict'
 var Hapi = require('hapi');
 var Inert = require('inert');
 
-var server = new Hapi.Server();
+var server = new Hapi.Server({
+  connections: {
+    routes: {
+      files: {
+        relativeTo: __dirname + '/client'
+      }
+    }
+  }
+});
 var host = process.env.HOST || 'localhost';
 var port = process.env.PORT || '3000';
 
@@ -12,18 +20,19 @@ server.connection({
   host: host
 });
 
-server.register(Inert, function (err) {
-  if (err) throw err;
-
+server.register(Inert, function () {
   server.route({
     method: 'GET',
-    path: '/',
-    handler: function (req, res) {
-      res.file('./index.html');
+    path: '/{param*}',
+    handler: {
+      directory: {
+        path: '.',
+        redirectToSlash: true,
+        index: true
+      }
     }
-  });
+  })
 });
-
 
 server.start(function (err) {
   if (err) throw err;
