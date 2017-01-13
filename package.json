@@ -1,0 +1,16 @@
+{
+  "name": "hapi_test",
+  "version": "1.0.0",
+  "description": "A microapp to test out a Hapi server",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "author": "Ryo Wheatley",
+  "license": "ISC",
+  "dependencies": {
+    "hapi": "^16.1.0",
+    "inert": "^4.1.0"
+  }
+}
